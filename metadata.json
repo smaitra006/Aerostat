@@ -1,0 +1,8 @@
+{
+  "name": "AeroStat Airfare Index",
+  "description": "AeroStat airfare price index prototype featuring typed observation schemas, synthetic data fixtures, and real-time observation inspection.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

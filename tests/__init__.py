@@ -1,0 +1,1 @@
+"""AeroStat test suite."""

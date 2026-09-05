@@ -1,0 +1,16 @@
+{
+  "_comment": "Citation: DGCA Monthly Statistics (Domestic Air Transport) via github.com/Vonter/india-aviation-traffic (ODbL), original source dgca.gov.in",
+  "label": "DGCA Dec 2025 (city-pair two-way passenger volume)",
+  "source": "DGCA Monthly Statistics (Domestic Air Transport) via github.com/Vonter/india-aviation-traffic (ODbL), original source dgca.gov.in",
+  "note": "December 2025 is the most recent month with complete data for these routes; DGCA publishes with a reporting lag.",
+  "passengers": {
+    "DEL-BOM": 587188,
+    "DEL-BLR": 421576,
+    "BOM-BLR": 324953
+  },
+  "weights": {
+    "DEL-BOM": 0.4402,
+    "DEL-BLR": 0.3161,
+    "BOM-BLR": 0.2437
+  }
+}
