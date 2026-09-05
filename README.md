@@ -7,17 +7,24 @@ AeroStat is a client-side airfare price index platform prototype (SIH26056) that
 ## Important Data & Architecture Disclaimer
 
 > **PLEASE READ BEFORE USE:**
-> 1. **Synthetic Fare Observations**: All 449 individual flight fare observations in this prototype are **synthetic fixture data** generated for modeling and demonstration. They are **not** live-scraped from airline websites or Global Distribution Systems (GDS).
+> 1. **Live Scraping & Synthetic Fallback**: This application features a live background scraper using Playwright to fetch real flight data from OTAs. If live scraping is blocked by anti-bot measures, it automatically falls back to generating synthetic fixture data to ensure the platform never breaks.
 > 2. **Real DGCA Route Weights**: Route weights and traffic volumes are based on **real passenger data** published by the Directorate General of Civil Aviation (DGCA) for December 2025 (source: *DGCA Monthly Statistics via india-aviation-traffic*, published under ODbL).
-> 3. **Client-Side Only (No Backend)**: There is **no backend server or database**. The entire application, including the data ingestion pipeline, deduplication, anomaly detection, index calculation engine, methodology checks, and API contract simulation, runs 100% client-side in the browser.
+> 3. **FastAPI Backend**: The application uses a robust FastAPI backend with a SQLite database to store flight observations and run background tasks using APScheduler.
 
 ---
 
 ## Tech Stack
 
-The application uses the dependencies defined in `package.json`:
+The application uses a modern React frontend and a FastAPI backend:
 
-### Runtime Dependencies
+### Backend Dependencies (Python)
+- **FastAPI (`>=0.110.0`)**: High-performance async API framework
+- **SQLAlchemy (`>=2.0.28`)**: Database ORM
+- **Playwright (`>=1.42.0`)**: Headless browser for live web scraping
+- **APScheduler (`>=3.10.0`)**: Background job scheduling for periodic scraping
+- **Uvicorn**: ASGI web server
+
+### Frontend Runtime Dependencies (Node.js)
 - **React (`^19.0.1`)** & **React DOM (`^19.0.1`)**: Component-based user interface
 - **Vite (`^6.2.3`)** & **`@vitejs/plugin-react` (`^5.0.4`)**: Fast development server and production bundler
 - **Recharts (`^3.10.1`)**: Declarative data visualization for index trends, heatmaps, and elasticity curves
@@ -36,9 +43,10 @@ The application uses the dependencies defined in `package.json`:
 
 To clone and run this application locally, you will need:
 
-- **Node.js**: Version `18.0.0` or higher (tested on Node.js `v22.x`)
-- **Package Manager**: `npm` (version `9.x` or `10.x`, included with Node.js) or `yarn` / `pnpm`
-- **Zero Configuration**: **No API keys, no external database, and no third-party cloud accounts are required.** Everything works immediately out of the box.
+- **Python**: Version `3.10` or higher
+- **Node.js**: Version `18.0.0` or higher
+- **Package Manager**: `npm` (version `9.x` or `10.x`, included with Node.js)
+- **Zero Configuration**: **No API keys and no third-party cloud accounts are required.** A local SQLite database is automatically generated.
 
 ---
 
@@ -53,16 +61,31 @@ cd aerostat-airfare-index
 ```
 *(If you downloaded a ZIP archive, extract it and navigate into the extracted directory.)*
 
-### 2. Install Dependencies
+### 2. Set up the Backend
+First, set up a Python virtual environment and install the backend dependencies, including Playwright for live scraping:
 ```bash
-npm install
+python -m venv .venv
+# Activate the virtual environment:
+# On Windows: .venv\Scripts\activate
+# On Mac/Linux: source .venv/bin/activate
+
+pip install -r requirements.txt
+playwright install chromium
 ```
 
-### 3. Start the Development Server
+Next, start the FastAPI backend server (which automatically initializes the database and background scraper):
 ```bash
+uvicorn app.main:app --reload
+```
+The backend will run on `http://127.0.0.1:8000`.
+
+### 3. Set up and Start the Frontend
+In a new terminal window, install the Node dependencies and start the Vite development server:
+```bash
+npm install
 npm run dev
 ```
-The development server will start instantly and bind to `http://localhost:3000` (or `http://0.0.0.0:3000`). Open this URL in any modern web browser to view the interactive dashboard.
+The development server will bind to `http://localhost:3000`. Open this URL in any modern web browser to view the interactive dashboard.
 
 ### 4. Run the Test Suite
 ```bash
@@ -170,8 +193,8 @@ npx vitest
 
 ## Known Limitations
 
-- **Fixture Data Only**: Flight fare observations are synthetic samples created for structural and mathematical demonstration; there is no live web scraping or GDS feed.
-- **Client-Side Only**: Runs entirely in the client's web browser without an external server or persistent database.
+- **Scraping Limitations**: Web scrapers are inherently brittle. If the live Playwright scraper is blocked by CAPTCHAs, it will fallback to synthetic data generation.
+- **Local Database**: Currently uses SQLite for local demonstration, which might need to be upgraded to PostgreSQL for production deployments.
 - **DGCA Fare Backtest**: Historical airfare backtesting against official DGCA fare records is not possible due to public unavailability of transaction-level historical airfare data from regulatory bodies.
 
 ---

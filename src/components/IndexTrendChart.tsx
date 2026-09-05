@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { getIndexSeries } from '@/services/dataStore.ts';
+
 import {
   ResponsiveContainer,
   LineChart,
@@ -52,7 +52,17 @@ function IndexTooltip({ active, payload }: CustomTooltipProps) {
 }
 
 export function IndexTrendChart() {
-  const series = useMemo(() => getIndexSeries(), []);
+  const [series, setSeries] = React.useState<Array<{date: string, indexValue: number, baseValue: number}>>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    import('@/services/apiClient.ts').then(({ fetchIndexSeries }) => {
+      fetchIndexSeries(30).then((res) => {
+        setSeries(res.data.series);
+        setIsLoading(false);
+      });
+    });
+  }, []);
 
   const { minVal, maxVal, latestVal, baseDate, latestDate } = useMemo(() => {
     if (series.length === 0) {
@@ -72,7 +82,7 @@ export function IndexTrendChart() {
 
   return (
     <div className="w-full bg-[#0F0F11] border border-[#222] rounded p-4 sm:p-5 font-mono shadow-lg text-xs space-y-4">
-      {/* HEADER WITH DEMO DATASET BADGE */}
+      {/* HEADER WITH LIVE BACKEND BADGE */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#222]">
         <div className="flex items-center gap-2.5">
           <div className="p-1.5 bg-blue-950/60 border border-blue-500/30 rounded text-blue-400">
@@ -83,8 +93,12 @@ export function IndexTrendChart() {
               <h2 className="text-sm font-bold tracking-wider text-white uppercase">
                 APIx 30-Period Index Trend
               </h2>
-              <span className="bg-amber-950/50 border border-amber-600/60 text-amber-300 text-[10px] px-2 py-0.5 rounded font-semibold uppercase tracking-wider">
-                DEMO DATASET
+              <span className="bg-emerald-950/50 border border-emerald-600/60 text-emerald-400 text-[10px] px-2 py-0.5 rounded font-semibold uppercase tracking-wider flex items-center gap-1.5">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                </span>
+                LIVE BACKEND
               </span>
             </div>
             <p className="text-[11px] text-zinc-400 mt-0.5">

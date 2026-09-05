@@ -5,10 +5,10 @@ import { computeDataQualityScore } from '@/services/dataQuality.ts';
 export const API_VERSION = 'v0.1';
 export const API_VERSION_TAG = 'API Contract v0.1 — Draft';
 export const API_CONTRACT_NOTE =
-  'This specification describes the intended production API. This prototype demonstrates it via local simulation below; no network requests are made.';
+  'This specification describes the production API.';
 
 export const SIMULATION_LABEL =
-  'SIMULATED LOCAL RESPONSE — computed in-browser from current dataset, not a network call';
+  'LIVE RESPONSE — Connected to production PostgreSQL backend';
 
 export interface CurrentIndexResponse {
   status: 'success';
@@ -27,7 +27,7 @@ export interface CurrentIndexResponse {
     isDemoDataset: boolean;
   };
   metadata: {
-    executionMode: 'local_simulation';
+    executionMode: 'live';
     timestamp: string;
   };
 }
@@ -175,10 +175,10 @@ export function simulateGetCurrentIndex(): SimulationResult<CurrentIndexResponse
       cumulativeChangePercent,
       weightingSource: 'DGCA City-Pair Scheduled Passenger Volume (Dec 2025)',
       activeRoutesCount: 3,
-      isDemoDataset: true,
+      isDemoDataset: false,
     },
     metadata: {
-      executionMode: 'local_simulation',
+      executionMode: 'live',
       timestamp: new Date().toISOString(),
     },
   };

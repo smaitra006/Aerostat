@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import {
-  simulateGetCurrentIndex,
-  simulateGetIndexSeries,
-  simulateGetRouteQuality,
-  isDataLoaded,
   SIMULATION_LABEL,
   VALID_ROUTES,
   type ValidRoute,
   type SimulationResult,
 } from '@/services/apiContract.ts';
+import {
+  fetchCurrentIndex,
+  fetchIndexSeries,
+  fetchRouteQuality
+} from '@/services/apiClient.ts';
+
 import {
   Terminal,
   Play,
@@ -29,24 +31,45 @@ export function ApiExplorerPanel() {
   const [selectedRoute, setSelectedRoute] = useState<ValidRoute>('DEL-BOM');
   const [copied, setCopied] = useState(false);
 
-  // Initialize with real simulated response so user sees immediate live data
-  const [lastResult, setLastResult] = useState<SimulationResult<unknown> | null>(() => {
-    return simulateGetCurrentIndex();
-  });
+  // Initialize empty and fetch on mount
+  const [lastResult, setLastResult] = useState<SimulationResult<unknown> | null>(null);
 
-  const handleSimulateRequest = () => {
-    let result: SimulationResult<unknown>;
+  React.useEffect(() => {
+    handleSimulateRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    if (selectedEndpoint === 'current') {
-      result = simulateGetCurrentIndex();
-    } else if (selectedEndpoint === 'series') {
-      result = simulateGetIndexSeries(seriesDays);
-    } else {
-      result = simulateGetRouteQuality(selectedRoute);
+
+  const handleSimulateRequest = async () => {
+    let resultResponse: unknown;
+    let endpointStr = '';
+
+    const start = performance.now();
+    try {
+      if (selectedEndpoint === 'current') {
+        endpointStr = '/v1/index/current';
+        resultResponse = await fetchCurrentIndex();
+      } else if (selectedEndpoint === 'series') {
+        endpointStr = `/v1/index/series?days=${seriesDays}`;
+        resultResponse = await fetchIndexSeries(seriesDays);
+      } else {
+        endpointStr = `/v1/routes/${selectedRoute}/quality`;
+        resultResponse = await fetchRouteQuality(selectedRoute);
+      }
+    } catch (e) {
+      resultResponse = { error: 'Failed to fetch from backend' };
     }
+    const end = performance.now();
 
-    setLastResult(result);
+    setLastResult({
+      statusCode: (resultResponse as any)?.status === 'error' ? 500 : 200,
+      endpoint: endpointStr,
+      response: resultResponse as any,
+      computeTimeMs: end - start,
+      simulatedAt: new Date().toISOString(),
+    });
   };
+
 
   const handleCopy = () => {
     if (!lastResult) return;
@@ -55,7 +78,8 @@ export function ApiExplorerPanel() {
     setTimeout(() => setCopied(false), 1800);
   };
 
-  const dataAvailable = isDataLoaded();
+  const dataAvailable = true; // Assumed true with live backend or graceful fallback
+
 
   return (
     <div className="w-full bg-[#0F0F11] border border-[#222] rounded p-4 sm:p-5 font-mono shadow-lg text-xs space-y-4">
@@ -90,13 +114,8 @@ export function ApiExplorerPanel() {
         </div>
       </div>
 
-      {/* DATA NOT LOADED GUARD */}
-      {!dataAvailable && (
-        <div className="p-3 bg-amber-950/40 border border-amber-600/60 rounded text-amber-200 flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
-          <span>Underlying airfare dataset has not been initialized. Please wait for memory fixtures to load.</span>
-        </div>
-      )}
+      {/* DATA NOT LOADED GUARD IS REMOVED FOR LIVE BACKEND */}
+
 
       {/* REQUEST CONFIGURATION CONTROLS */}
       <div className="bg-[#141418] border border-[#262630] rounded p-3.5 space-y-3">

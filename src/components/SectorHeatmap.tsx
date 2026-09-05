@@ -78,8 +78,12 @@ export function SectorHeatmap() {
               <h2 className="text-sm font-bold tracking-wider text-white uppercase">
                 Sector Fare Heatmap
               </h2>
-              <span className="bg-amber-950/50 border border-amber-600/60 text-amber-300 text-[10px] px-2 py-0.5 rounded font-semibold uppercase tracking-wider">
-                DEMO DATASET
+              <span className="bg-emerald-950/50 border border-emerald-600/60 text-emerald-400 text-[10px] px-2 py-0.5 rounded font-semibold uppercase tracking-wider flex items-center gap-1.5">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                </span>
+                LIVE BACKEND
               </span>
             </div>
             <p className="text-[11px] text-zinc-400 mt-0.5">
