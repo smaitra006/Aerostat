@@ -66,7 +66,7 @@ export function SectorHeatmap() {
   const { routes, leadTimes, matrix, totalSoldOutExcluded, minFare, maxFare } = aggregations;
 
   return (
-    <div className="w-full bg-[#0F0F11] border border-[#222] rounded p-4 sm:p-5 font-mono shadow-lg text-xs space-y-4">
+    <div className="w-full h-full p-4 sm:p-5 font-mono text-xs space-y-4 flex flex-col">
       {/* HEADER SECTION */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#222]">
         <div className="flex items-center gap-2.5">

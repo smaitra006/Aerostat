@@ -27,7 +27,7 @@ export function IndexSummaryCard() {
 
   if (isLoading) {
     return (
-      <div className="w-full bg-zinc-900/50 border border-white/5 rounded-xl p-5 shadow-lg backdrop-blur-md flex items-center justify-center min-h-[200px]">
+      <div className="w-full h-full p-5 flex flex-col items-center justify-center min-h-[200px]">
         <div className="flex flex-col items-center gap-3">
           <div className="w-6 h-6 border-2 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin"></div>
           <span className="text-sm font-medium text-zinc-500 font-sans">Loading APIx Data...</span>
@@ -44,7 +44,7 @@ export function IndexSummaryCard() {
   const isPositive = pctChange >= 0;
 
   return (
-    <div className="w-full bg-zinc-900/50 border border-white/5 rounded-xl p-5 shadow-lg backdrop-blur-md font-sans space-y-5">
+    <div className="w-full h-full p-5 font-sans space-y-5 flex flex-col">
       {/* VISIBLE DGCA WEIGHTS CITATION BANNER */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 bg-gradient-to-r from-sky-500/10 to-indigo-500/10 border border-sky-500/20 px-4 py-3 rounded-xl text-sky-200">
         <Scale className="w-5 h-5 text-sky-400 shrink-0" />
@@ -62,7 +62,7 @@ export function IndexSummaryCard() {
       </div>
 
       {/* MAIN METRIC GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-center flex-1">
         {/* LEFT / CENTER: CURRENT VALUE DISPLAY */}
         <div className="md:col-span-6 flex flex-col justify-center space-y-2 pl-2">
           <div className="flex items-center gap-2">
@@ -110,7 +110,7 @@ export function IndexSummaryCard() {
         </div>
 
         {/* RIGHT: WEIGHTS BREAKDOWN & ANOMALY FILTER TOGGLE */}
-        <div className="md:col-span-6 bg-zinc-800/40 border border-white/5 shadow-inner rounded-xl p-4 space-y-4">
+        <div className="md:col-span-6 bg-zinc-950/40 border border-white/5 shadow-inner rounded-xl p-4 space-y-4">
           {/* METHODOLOGY & WEIGHTS */}
           <div>
             <div className="flex items-center justify-between text-[11px] text-zinc-400 uppercase tracking-wider mb-3 font-bold">
@@ -150,7 +150,7 @@ export function IndexSummaryCard() {
       </div>
 
       {/* FOOTER NOTE EXPLAINING MATHEMATICAL STRUCTURE */}
-      <div className="border-t border-white/5 pt-3 text-[11px] text-zinc-500 flex flex-wrap items-center justify-between gap-3">
+      <div className="border-t border-white/5 pt-3 text-[11px] text-zinc-500 flex flex-wrap items-center justify-between gap-3 mt-auto">
         <div className="flex items-center gap-2">
           <span className="font-semibold text-zinc-400">Calculation:</span>
           <span className="font-mono">Δ = exp(Σ w_r · ln(rel_r) / Σ w_r)</span>

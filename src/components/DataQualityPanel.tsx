@@ -52,7 +52,7 @@ export function DataQualityPanel({ onFilterAnomalies, isFilterActive }: DataQual
 
   return (
     <div className="w-full bg-zinc-900/50 border border-white/5 rounded-xl p-4 sm:p-5 shadow-lg backdrop-blur-md font-sans">
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6">
+      <div className="flex flex-col gap-6">
         {/* SCORE & INTEGRITY STATUS */}
         <div className="flex items-center gap-4">
           <div className={`flex items-center justify-center w-14 h-14 rounded-xl border shrink-0 ${isHealthy ? 'bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border-emerald-500/20' : 'bg-gradient-to-br from-amber-500/10 to-orange-500/10 border-amber-500/20'}`}>
@@ -75,7 +75,7 @@ export function DataQualityPanel({ onFilterAnomalies, isFilterActive }: DataQual
                 {isHealthy ? 'High Integrity' : 'Degraded Quality'}
               </span>
             </div>
-            <div className="text-xs text-zinc-400 flex items-center gap-1.5">
+            <div className="text-xs text-zinc-400 flex flex-wrap items-center gap-1.5">
               <span className="font-semibold text-zinc-300">Data Quality Score (DQS)</span>
               <span className="text-zinc-600">•</span>
               <span className="text-zinc-500">Heuristic Ingestion Metric</span>
@@ -84,7 +84,7 @@ export function DataQualityPanel({ onFilterAnomalies, isFilterActive }: DataQual
         </div>
 
         {/* METRICS TILES & PENALTY BREAKDOWN */}
-        <div className="grid grid-cols-3 gap-3 flex-1 xl:max-w-xl">
+        <div className="grid grid-cols-3 gap-2 w-full">
           {/* SOLD OUT TILE */}
           <div className="bg-zinc-800/40 border border-white/5 rounded-xl p-3 sm:px-4 text-left">
             <div className="flex items-center justify-between text-[11px] text-zinc-500 font-semibold uppercase tracking-wider">

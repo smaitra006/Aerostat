@@ -82,7 +82,7 @@ export function ApiExplorerPanel() {
 
 
   return (
-    <div className="w-full bg-[#0F0F11] border border-[#222] rounded p-4 sm:p-5 font-mono shadow-lg text-xs space-y-4">
+    <div className="w-full h-full p-4 sm:p-5 font-mono text-xs space-y-4 flex flex-col">
       {/* HEADER WITH PROMINENT NO-NETWORK DISCLAIMER (VISIBLE WITHOUT SCROLLING) */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-[#222]">
         <div className="flex items-center gap-2.5">

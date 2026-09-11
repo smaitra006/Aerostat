@@ -72,26 +72,26 @@ export function ScraperHealthPanel() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
         {nodes.map((node) => (
-          <div key={node.id} className="bg-zinc-800/40 border border-white/5 rounded-xl p-4 flex flex-col gap-4 shadow-inner hover:bg-zinc-800/60 transition-colors">
+          <div key={node.id} className="bg-zinc-800/40 border border-white/5 rounded-xl p-3 flex flex-col gap-3 shadow-inner hover:bg-zinc-800/60 transition-colors">
             <div className="flex justify-between items-start">
-              <div className="font-bold text-zinc-200">{node.name}</div>
+              <div className="font-bold text-zinc-200 text-xs">{node.name}</div>
               {node.status === 'healthy' ? (
-                <CheckCircle className="w-4 h-4 text-emerald-400" />
+                <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
               ) : (
-                <AlertTriangle className="w-4 h-4 text-amber-500 animate-pulse" />
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
               )}
             </div>
-            <div className="flex flex-col gap-2 mt-auto">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-zinc-500 font-medium flex items-center gap-1.5"><Zap className="w-3.5 h-3.5"/> Latency</span>
+            <div className="flex flex-col gap-1.5 mt-auto">
+              <div className="flex items-center justify-between text-[10px]">
+                <span className="text-zinc-500 font-medium flex items-center gap-1"><Zap className="w-3 h-3"/> Latency</span>
                 <span className={`font-semibold font-mono ${node.latency > 300 ? 'text-amber-400' : 'text-emerald-400'}`}>
                   {node.latency}ms
                 </span>
               </div>
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-zinc-500 font-medium flex items-center gap-1.5"><Clock className="w-3.5 h-3.5"/> Last Scrape</span>
+              <div className="flex items-center justify-between text-[10px]">
+                <span className="text-zinc-500 font-medium flex items-center gap-1"><Clock className="w-3 h-3"/> Last Scrape</span>
                 <span className="text-zinc-300 font-semibold font-mono">{node.lastScrape}s ago</span>
               </div>
             </div>

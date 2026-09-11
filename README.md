@@ -106,6 +106,31 @@ npm run preview
 
 ---
 
+## Free Deployment Guide
+
+This project is configured to be deployed entirely on free cloud tiers. Follow these steps:
+
+### 1. Database (Neon or Supabase)
+Render's free tier uses ephemeral storage, which will wipe your SQLite database. You must use a persistent free database:
+- Create a free PostgreSQL database on [Neon.tech](https://neon.tech/) or [Supabase](https://supabase.com/).
+- Copy your connection string (e.g., `postgres://user:password@hostname/dbname`).
+
+### 2. Backend (Render)
+The backend uses Playwright, requiring a Docker-based deployment. We have provided a `Dockerfile` and `render.yaml`.
+- Create a free account on [Render.com](https://render.com/).
+- In the Render dashboard, click **New** -> **Blueprint**.
+- Connect your GitHub repository. Render will automatically detect the `render.yaml` file.
+- During setup, it will ask for a `DATABASE_URL`. Paste the connection string from Step 1.
+- *Note: Render free instances spin down after 15 minutes of inactivity. To keep the background scraper running 24/7, you can use a free ping service like [UptimeRobot](https://uptimerobot.com/) to ping your backend URL every 10 minutes.*
+
+### 3. Frontend (Vercel)
+- Create a free account on [Vercel](https://vercel.com/).
+- Click **Add New** -> **Project** and import your GitHub repository.
+- Vercel will automatically detect that this is a Vite project and configure the build settings.
+- Deploy!
+
+---
+
 ## Project Structure
 
 Annotated tree of the `/src` directory:

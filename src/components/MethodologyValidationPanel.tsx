@@ -16,7 +16,7 @@ export function MethodologyValidationPanel() {
   const { baseCheck, jumpCheck, continuityCheck, periodRangeLabel, cumulativeChangePct } = report;
 
   return (
-    <div className="w-full bg-zinc-900/50 border border-white/5 rounded-xl p-5 font-sans shadow-lg space-y-6 backdrop-blur-md">
+    <div className="w-full h-full p-5 font-sans space-y-6 flex flex-col">
       {/* HEADER WITH LIVE BACKEND BADGE */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
         <div className="flex items-center gap-3">
